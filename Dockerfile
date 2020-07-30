@@ -101,21 +101,21 @@ RUN git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
     cd ../
 
 # Busybox
-RUN wget -c https://busybox.net/downloads/busybox-1.30.1.tar.bz2 && \
-    tar xf busybox-1.30.1.tar.bz2 && \
-    cd busybox-1.30.1/ && \
-    make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- defconfig && \
-    make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- menuconfig && \
-    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8 && \
-    make install ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- && \
-    cd _install/ && \
-    mkdir proc sys dev etc etc/init.d && \
-    cd ../ && \
-    echo -e "#! /bin/sh\nmount -t proc none /proc\nmount -t sysfs none /sys\n/sbin/mdev -s" > _install/etc/init.d/rcS && \
-    chmod +x _install/etc/init.d/rcS && \
-    cd _install  && \
-    find . | cpio -o --format=newc > ../rootfs.img && \
-    cd ../ && \
-    gzip -c rootfs.img > rootfs.img.gz && \
+#RUN    wget -c https://busybox.net/downloads/busybox-1.30.1.tar.bz2
+#RUN    tar xf busybox-1.30.1.tar.bz2
+#RUN    cd busybox-1.30.1/
+#RUN    make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- defconfig
+#RUN    make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- menuconfig
+#RUN    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8
+#RUN    make install ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
+#RUN    cd _install/
+#RUN    mkdir proc sys dev etc etc/init.d
+#RUN    cd ../
+#RUN    echo -e "#! /bin/sh\nmount -t proc none /proc\nmount -t sysfs none /sys\n/sbin/mdev -s" > _install/etc/init.d/rcS
+#RUN    chmod +x _install/etc/init.d/rcS
+#RUN    cd _install 
+#RUN    find . | cpio -o --format=newc > ../rootfs.img
+#RUN    cd ../
+#RUN    gzip -c rootfs.img > rootfs.img.gz
 
 #cp rootfs.img.gz $BUILD_DIR/busybox_arm64/
