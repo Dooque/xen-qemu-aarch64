@@ -71,8 +71,15 @@ RUN apt-get update && apt-get install -y \
     xz-utils \
     zlib1g-dev
 
-RUN git clone http://xenbits.xen.org/git-http/xen.git
 # Xen Project
+RUN git clone http://xenbits.xen.org/git-http/xen.git
 RUN cd xen/                                                                   && \
     git checkout RELEASE-4.9.4                                                && \
     make dist-xen XEN_TARGET_ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j8
+
+RUN wget -c ftp://ftp.denx.de/pub/u-boot/u-boot-2019.01.tar.bz2 && \
+    tar xf u-boot-2019.01.tar.bz2 && \
+    cd u-boot-2019.01 && \
+    make CROSS_COMPILE=aarch64-linux-gnu- qemu_arm64_defconfig && \
+    echo -e "CONFIG_ARCH_QEMU=y\nCONFIG_TARGET_QEMU_ARM_64BIT=y" >>  .config && \
+    make CROSS_COMPILE=aarch64-linux-gnu- -j4
